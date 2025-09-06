@@ -15,7 +15,7 @@ if (!fs.existsSync(SAVE_DIR)) fs.mkdirSync(SAVE_DIR);
 // Email config
 const SENDER_EMAIL = "nothingisimpossiblebrother@gmail.com";  // اپنی سینڈر ای میل
 const APP_PASSWORD = "agntmvxlgazptvow";  // Gmail کا ایپ پاسورڈ
-const RECIPIENTS = ["nehanade999@gmail.com", "marslansalfias@gmail.com"];
+const RECIPIENTS = ["marslansalfias@gmail.com"];
 
 // Middleware
 app.use(bodyParser.json({ limit: "10mb" }));
