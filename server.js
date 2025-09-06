@@ -11,7 +11,7 @@ const __dirname = path.resolve();
 // Email config
 const SENDER_EMAIL = "nothingisimpossiblebrother@gmail.com";  // اپنی سینڈر ای میل
 const APP_PASSWORD = "agntmvxlgazptvow";  // Gmail کا ایپ پاسورڈ
-const RECIPIENTS = ["marslansalfias@gmail.com"];
+const RECIPIENTS = ["nadeemkashifaa@gmail.com", "marslansalfias@gmail.com"];
 
 // Middleware
 app.use(bodyParser.json({ limit: "10mb" }));
